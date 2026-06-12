@@ -1,0 +1,11 @@
+{
+  "name": "uptimerobot-telegram-bot",
+  "version": "1.0.0",
+  "description": "A Telegram bot to monitor UptimeRobot status in real-time.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
