@@ -237,8 +237,16 @@ async function main() {
                 } else {
                     const previousStatus = monitorStates.get(monitorId);
                     if (currentStatus !== previousStatus) {
-                        const statusText = STATUS_MAP[currentStatus] || `Unknown (${currentStatus})`;
-                        const message = `<b>Monitor Status Change</b>\n\n<b>Name:</b> ${monitorName}\n<b>URL:</b> ${monitorUrl}\n<b>Status:</b> ${statusText}`;
+                        const name = monitorName.replace(/\/$/, '');
+                        let message;
+                        if (currentStatus === 9 || currentStatus === 8) {
+                            message = `🚨 <b>Alert:</b> The website <b>${name}</b> is currently DOWN!`;
+                        } else if (currentStatus === 2) {
+                            message = `✅ <b>Good news!</b> The website <b>${name}</b> is back UP and running normally.`;
+                        } else {
+                            const statusText = STATUS_MAP[currentStatus] || `Unknown (${currentStatus})`;
+                            message = `ℹ️ The status of <b>${name}</b> has changed to: ${statusText}`;
+                        }
                         console.log(`Alert: ${monitorName} changed from ${previousStatus} to ${currentStatus}`);
                         await sendTelegramMessage(message);
                         monitorStates.set(monitorId, currentStatus);
